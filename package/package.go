@@ -5,6 +5,7 @@ package libimgui
 // user 'jurgen-kluft' as a configuration var?
 
 import (
+	libglfw "github.com/jurgen-kluft/libglfw/package"
 	xbase "github.com/jurgen-kluft/xbase/package"
 	"github.com/jurgen-kluft/xcode/denv"
 	xentry "github.com/jurgen-kluft/xentry/package"
@@ -18,16 +19,16 @@ func GetPackage() *denv.Package {
 	xunittestpkg := xunittest.GetPackage()
 	xentrypkg := xentry.GetPackage()
 	xbasepkg := xbase.GetPackage()
+	libglfwpkg := libglfw.GetPackage()
 
-	// The main (xbase) package
+	// The main (libimgui) package
 	mainpkg := denv.NewPackage(name)
-	mainpkg.AddPackage(xunittestpkg)
-	mainpkg.AddPackage(xentrypkg)
 	mainpkg.AddPackage(xbasepkg)
+	mainpkg.AddPackage(libglfwpkg)
 
-	// library
+	// Imgui Library
 	mainlib := denv.SetupDefaultCppLibProject(name, "github.com\\jurgen-kluft\\"+name)
-	mainlib.Dependencies = append(mainlib.Dependencies, xunittestpkg.GetMainLib())
+	mainlib.Dependencies = append(mainlib.Dependencies, libglfwpkg.GetMainLib())
 
 	// unittest project
 	maintest := denv.SetupDefaultCppTestProject(name+"_test", "github.com\\jurgen-kluft\\"+name)
