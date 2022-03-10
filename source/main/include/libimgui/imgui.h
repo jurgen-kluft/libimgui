@@ -263,7 +263,7 @@ struct ImVec4
 {
     float                                                     x, y, z, w;
     constexpr ImVec4()                                        : x(0.0f), y(0.0f), z(0.0f), w(0.0f) { }
-	constexpr ImVec4(const float v[4])  : x(v[0]), y(v[1]), z(v[2]), w(v[3]) { }
+	constexpr ImVec4(const unsigned char* v)  : x(v[0]), y(v[1]), z(v[2]), w(v[3]) { x /= 255.0f; y /= 255.0f; z /= 255.0f; w /= 255.0f; }
 	constexpr ImVec4(float _x, float _y, float _z, float _w)  : x(_x), y(_y), z(_z), w(_w) { }
 #ifdef IM_VEC4_CLASS_EXTRA
     IM_VEC4_CLASS_EXTRA     // Define additional constructors and implicit cast operators in imconfig.h to convert back and forth between your math types and ImVec4.
@@ -2351,7 +2351,7 @@ struct ImColor
     ImColor(int r, int g, int b, int a = 255)                       { float sc = 1.0f / 255.0f; Value.x = (float)r * sc; Value.y = (float)g * sc; Value.z = (float)b * sc; Value.w = (float)a * sc; }
     ImColor(ImU32 rgba)                                             { float sc = 1.0f / 255.0f; Value.x = (float)((rgba >> IM_COL32_R_SHIFT) & 0xFF) * sc; Value.y = (float)((rgba >> IM_COL32_G_SHIFT) & 0xFF) * sc; Value.z = (float)((rgba >> IM_COL32_B_SHIFT) & 0xFF) * sc; Value.w = (float)((rgba >> IM_COL32_A_SHIFT) & 0xFF) * sc; }
 	ImColor(float r, float g, float b, float a = 1.0f)              { Value.x = r; Value.y = g; Value.z = b; Value.w = a; }
-	ImColor(const float v[4])              { Value.x = v[0]; Value.y = v[1]; Value.z = v[2]; Value.w = v[3]; }
+	ImColor(const unsigned char* v)              { Value.x = v[0]; Value.y = v[1]; Value.z = v[2]; Value.w = v[3]; Value.x /= 255.0f; Value.y /= 255.0f; Value.z /= 255.0f; Value.w /= 255.0f;}
 	ImColor(const ImVec4& col)                                      { Value = col; }
     inline operator ImU32() const                                   { return ImGui::ColorConvertFloat4ToU32(Value); }
     inline operator ImVec4() const                                  { return Value; }
